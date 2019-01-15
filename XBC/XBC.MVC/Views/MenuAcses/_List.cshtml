@@ -1,0 +1,54 @@
+﻿@model IEnumerable<XBC.ViewModel.MenuAccessViewModel>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.role)
+        </th>
+        
+        <th>
+            @Html.DisplayNameFor(model => model.title)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.role)
+        </td>
+       
+        <td>
+            @Html.DisplayFor(modelItem => item.title)
+        </td>
+        <td>
+            @* Dropdwon button *@
+            <div class="dropdown">
+                <button class="btn btn-warning dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                    <li><a href="#" class="btn-delete" data-id="@item.id">Delete</a></li>
+                </ul>
+            </div>
+        </td>
+    </tr>
+}
+    </table>
+    <script type="text/javascript">
+
+        $(".btn-delete").click(function () {
+           // alert("Value id : " + $(this).attr("data-id"));
+            $.ajax({
+            url: '@Url.Action("Delete", "MenuAcses")',
+            type: 'get',
+            data: { id: $(this).attr("data-id") },
+            success: function (result) {
+                $(".modal-title").html("Delete");
+                $(".modal-body").html(result);
+                $(".modal").modal("show");
+            }
+        });
+        });
+</script>

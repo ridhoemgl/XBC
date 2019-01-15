@@ -1,0 +1,43 @@
+﻿@model IEnumerable<XBC.ViewModel.UserViewModel>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.username)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.name)
+        </th>
+
+        <th>Action</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.username)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.name)
+            </td>
+
+            <td>
+                @* Dropdwon button *@
+                <div class="dropdown">
+                    <button class="btn btn-warning dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                        <li class="li-Edit btn-edit" data-id="@item.id"><a href="#">Edit</a></li>
+                        <li class="li-Deactive btn-deactive" data-id="@item.id"><a href="#">Delete</a></li>
+                        <li class="li-Reset btn-reset" data-id="@item.id"><a href="#">Reset</a></li>
+
+                    </ul>
+                </div>
+            </td>
+        </tr>
+    }
+
+</table>

@@ -4,10 +4,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace XBC.MVC.Controllers
+namespace XBC.MVC.WebApp.Controllers
 {
     public class HomeController : Controller
     {
+        [AllowAnonymous]
         public ActionResult Index()
         {
             return View();
@@ -23,7 +24,20 @@ namespace XBC.MVC.Controllers
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
+            return View();
+        }
 
+        public ActionResult Test(int id)
+        {
+            ViewBag.Name = "Atur Aritonang";
+            ViewBag.OtherName = "Andra Backbone";
+            ViewBag.Id = id;
+            return View();
+        }
+
+        public ActionResult Logic(int id)
+        {
+            ViewBag.Nilai = id;
             return View();
         }
     }

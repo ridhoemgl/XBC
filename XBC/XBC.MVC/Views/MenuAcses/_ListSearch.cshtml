@@ -1,0 +1,41 @@
+﻿@model IEnumerable<XBC.ViewModel.MenuAccessViewModel>
+
+<table class="table" id="_table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.role)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.title)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.role)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.title)
+            </td>
+            <td>
+                <div class="dropdown">
+                    <button class="btn btn-warning dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                        <li class="li-Edit btn-edit" data-id="@item.id"><a href="#">Edit</a></li>
+                        <li class="li-Delete btn-delete" data-id="@item.id"><a href="#">Delete</a></li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+    }
+
+    </div>
+</table>
+

@@ -1,0 +1,72 @@
+﻿@model XBC.ViewModel.MenuAccessViewModel
+
+<h3>Apakah anda ingin menghpus ini?</h3>
+<div>
+
+    <hr />
+    <dl class="dl-horizontal">
+        
+        <dt>
+            @Html.DisplayNameFor(model => model.title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.role)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.role)
+        </dd>
+
+    </dl>
+
+
+    @using (Html.BeginForm("Delete", "MenuAcses", FormMethod.Post, new { id = "form-delete", name = "form-delete" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.id)
+        @Html.HiddenFor(model => model.role)
+
+
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-offset-2 col-md-10">
+                    <div class="col-xs-5">
+                        <input type="submit" value="Cancle" class="btn btn-danger" data-dismiss="modal" />
+                    </div>
+                    <div class="col-xs-4">
+                        <input type="submit" value="Delete" class="btn btn-success col-sm-pull-3" />
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<script type="text/javascript">
+    $("#form-delete").submit(function () {
+        $.ajax({
+            url: this.action,
+            type: this.method,
+            data: $(this).serialize(),
+            success: function (result) {
+                if (result.success) {
+                    alert("Delete SuccsessFull ! Name : " + result.entity.role);
+                    $(".modal").modal("hide");
+                    GetList();
+                }
+                else {
+                    alert("Error ! " + result.message);
+                }
+            }
+        });
+        return false;
+    });
+
+
+</script>
+

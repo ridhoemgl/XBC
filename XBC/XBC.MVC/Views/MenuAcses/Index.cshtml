@@ -1,0 +1,157 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h1>Menu</h1>
+    </div>
+    <div class="panel-body">
+        <div class="col-sm-3">
+            <div class="dropdown" id="searchRole">
+                @Html.DropDownList("role_id", (IEnumerable<SelectListItem>)ViewBag.ListRole, "-- Select Role --", new { @class = "form-control", @id="roleList"})
+            </div>
+            
+        </div>
+        <div class="col-sm-3">
+            <div class="btn btn-search glyphicon glyphicon-search" id="btn-search">
+            </div>
+        </div>
+        <div class="col-sm-2 ">
+            <button type="button" id="btn-new" class="btn btn-warning">
+                <span class="glyphicon glyphicon-plus"></span>
+            </button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12" id="menu-list">
+            <h3>Loading...</h3>
+        </div>
+    </div>
+</div>
+
+@* modal pop up *@
+<div class="modal fade" tabindex="-1" role="dialog" width="500">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Modal title</h4>
+            </div>
+            <div class="modal-body">
+                <p>One fine body&hellip;</p>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            GetList();
+            ReloadRole();
+        });
+
+        $("#btn-new").click(function () {
+            $.ajax({
+                url: '@Url.Action("Create", "MenuAcses")',
+                type: 'get',
+                success: function (result) {
+                    $(".modal-title").html("Create New Menu Accses");
+                    $(".modal-body").html(result);
+                    $(".modal").modal("show"); //class modal ditampilkan
+                },
+                error: function (err) {
+                    alert(err);
+                }
+            });
+        });
+
+        function GetList() {
+            $.ajax({
+                url: '@Url.Action("List", "MenuAcses")',
+                type: 'get',
+                //data: { search: $("#search").val() },
+                success: function (result) {
+                    $("#menu-list").html(result);
+                },
+                error: function (err) {
+                    $("#menu-list").html(err);
+                }
+            });
+        }
+        $("#btn-search").click(function () {
+            //alert("1");
+            //console.log($("#roleList").val());
+            $.ajax({
+                url: '@Url.Action("List", "MenuAcses")',
+                type: 'get',
+                data: { id: $("#roleList").val() },
+                success: function (result) {
+                    $("#menu-list").html(result);
+                }
+            });
+        })
+
+
+
+        function ReloadRole() {
+            $.ajax({
+                url: '@Url.Action("GetRole", "MenuAcses")',
+                type: 'get',
+                success: function (result) {
+                    $("#search").html(result);
+                }
+            });
+        }
+
+
+        @*$("#role_id").change(function () {
+            if ($(this).val() == "") {
+                $.ajax({
+                    url: '@Url.Action("List", "MenuAccess")',
+                    type: 'get',
+                    success: function (result) {
+                        $("#table-list").html(result);
+                    }
+                });
+            }
+            if ($(this).val()) {
+                $.ajax({
+                    url: '@Url.Action("search", "MenuAccess")',
+                    type: 'get',
+                    data: { key: $("#role_id").val() },
+                    success: function (result) {
+                        $("#table-list").html(result);
+                    }
+                });
+            }
+        });*@
+
+        @*$("#roleList").change(function () {
+            alert($(this).val());
+            if ($(this).val() == "") {
+                $.ajax({
+                    url: '@Url.Action("List", "MenuAccess")',
+                    type: 'get',
+                    success: function (result) {
+                        $("#table-list").html(result);
+                    }
+                });
+            }
+            if ($(this).val()) {
+                $.ajax({
+                    url: '@Url.Action("search", "MenuAccess")',
+                    type: 'get',
+                    data: { key: $("#role_id").val() },
+                    success: function (result) {
+                        $("#table-list").html(result);
+                    }
+                });
+            }
+        });*@
+    </script>
+}
+

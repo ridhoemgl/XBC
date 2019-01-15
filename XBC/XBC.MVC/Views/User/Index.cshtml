@@ -1,0 +1,154 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h1>User</h1>
+    </div>
+    <div class="panel-body">
+        <div class="col-lg-3">
+            <div class="input-group">
+                <input type="text" class="form-control" id="cari" placeholder="Search by Username" />
+            </div>
+        </div>
+        <div class="col-sm-3" >
+            <div class="btn btn-search glyphicon glyphicon-search btn-primary" id="btn-search">
+            </div>
+        </div>
+        <div class="col-lg-2 col-lg-offset-7">
+            <button type="button" id="btn-new" class="btn btn-warning">
+                <span class="glyphicon glyphicon-plus"></span>
+            </button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12" id="user-list">
+            <h3>Loading...</h3>
+        </div>
+    </div>
+</div>
+@* modal pop up *@
+<div class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Modal title</h4>
+            </div>
+            <div class="modal-body">
+                <p>One fine body&hellip;</p>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            GetList();
+        });
+
+        $("#btn-new").click(function () {
+            $.ajax({
+                url: '@Url.Action("Create", "User")',
+                type: 'get',
+                success: function (result) {
+                    $(".modal-title").html("Create New User");
+                    $(".modal-body").html(result);
+                    $(".modal").modal("show"); //class modal ditampilkan
+                },
+                error: function (err) {
+                    alert(err);
+                }
+            });
+        });
+
+        $("#cari").change(function () {
+            var data = $("#cari").val();
+            $.ajax({
+                url: '@Url.Action("List","User")',
+                type: 'get',
+                data: { keyword: data },
+                success: function (result) {
+                    $("#user-list").html(result);
+                },
+                error: function (err) {
+                    $("#user-list").html(err);
+                }
+            });
+        })
+
+        function GetList() {
+            $.ajax({
+                url: '@Url.Action("List","User")',
+                type: 'get',
+                data: { keyword: $("#cari").val() },
+                success: function (result) {
+                    $("#user-list").html(result);
+                },
+                error: function (err) {
+                    $("#user-list").html(err);
+                }
+            });
+        }
+          $("#user-list").on("click", ".btn-edit", function () {
+            $.ajax({
+                url: '@Url.Action("Edit", "User")',
+                type: 'get',
+                data: { id: $(this).attr("data-id") },
+                success: function (result) {
+                    $(".modal-title").html("Edit User");
+                    $(".modal-body").html(result);
+                    $(".modal").modal("show");
+                },
+                error: function (err) {
+                    alert(err);
+                }
+            });
+        });
+
+        $("#user-list").on("click", ".btn-deactive", function () {
+            $.ajax({
+                url: '@Url.Action("Delete", "User")',
+                type: 'get',
+                data: { id: $(this).attr("data-id") },
+                success: function (result) {
+                    $(".modal-title").html("Delete User?");
+                    $(".modal-body").html(result);
+                    $(".modal").modal("show");
+                }
+            });
+        });
+
+        $("#user-list").on("click", ".btn-reset", function () {
+           //alert($(this).attr("data-id"));
+            $.ajax({
+                url: '@Url.Action("Reset", "User")',
+                type: 'get',
+                data: { id: $(this).attr("data-id") },
+                success: function (result) {
+                    $(".modal-title").html("Reset Password ");
+                    $(".modal-body").html(result);
+                    $(".modal").modal("show");
+                }
+            });
+        });
+        $("#btn-search").click(function () {
+            //alert("1");
+            //console.log($("#roleList").val());
+            $.ajax({
+                url: '@Url.Action("List","User")',
+                type: 'get',
+                data: { keyword: data },
+                success: function (result) {
+                    $("#user-list").html(result);
+                },
+                error: function (err) {
+                    $("#user-list").html(err);
+                }
+            });
+        })
+    </script>
+}

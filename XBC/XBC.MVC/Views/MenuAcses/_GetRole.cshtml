@@ -1,0 +1,9 @@
+﻿@model IEnumerable<XBC.ViewModel.RoleViewModel>
+<select id="RoleId" class="form-control">
+    <option value="">Pilih Role</option>
+    @foreach (var item in Model)
+    {
+        <option value="@item.id">@item.name</option>
+    }
+
+</select>
